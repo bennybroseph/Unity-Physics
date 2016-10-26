@@ -25,10 +25,7 @@ public class BoidBehaviourSpawner : MonoBehaviour
 
             newGameObject.transform.SetParent(transform, false);
 
-            var newBoid =
-                BoidFactory.Create(
-                    new Vector(m_MinPosition.x, m_MinPosition.y, m_MinPosition.z),
-                    new Vector(m_MaxPosition.x, m_MaxPosition.y, m_MaxPosition.z));
+            var newBoid = BoidFactory.Create(m_MinPosition, m_MaxPosition);
 
             var newBoidBehaviour = newGameObject.AddComponent<BoidBehaviour>();
             newBoidBehaviour.Init(newBoid);
@@ -39,13 +36,16 @@ public class BoidBehaviourSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePosition = Input.mousePosition;
-        mousePosition.z = -Camera.main.transform.position.z;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        Boid.tendToPosition =
-            new Vector(
-                mousePosition.x,
-                mousePosition.y);
+        if (Input.GetMouseButton(1))
+        {
+            mousePosition = Input.mousePosition;
+            mousePosition.z = -Camera.main.transform.position.z;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            Boid.tendToPosition = new Vector(mousePosition.x, mousePosition.y);
+        }
+
+        Boid.avoidPosition = transform.position;
 
         Boid.Update(Time.deltaTime);
     }

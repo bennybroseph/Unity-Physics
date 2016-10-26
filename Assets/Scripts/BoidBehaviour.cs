@@ -24,8 +24,7 @@ public class BoidBehaviour : MonoBehaviour
             return false;
 
         m_Boid = newBoid;
-        transform.position =
-            new Vector3(m_Boid.position.x, m_Boid.position.y, m_Boid.position.z);
+        transform.position = m_Boid.position;
 
         return true;
     }
@@ -33,16 +32,8 @@ public class BoidBehaviour : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position =
-            new Vector3(
-                m_Boid.position.x,
-                m_Boid.position.y,
-                m_Boid.position.z);
+        transform.position = m_Boid.position;
 
-        transform.forward =
-            new Vector3(
-                m_Boid.velocity.x,
-                m_Boid.velocity.y,
-                m_Boid.velocity.z);
+        transform.forward = m_Boid.velocity;
     }
 }

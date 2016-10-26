@@ -38,6 +38,17 @@ namespace Utility
             this.z = z;
         }
 
+#if UNITY_5
+        public static implicit operator Vector3(Vector self)
+        {
+            return new Vector3(self.x, self.y, self.z);
+        }
+        public static implicit operator Vector(Vector3 self)
+        {
+            return new Vector(self.x, self.y, self.z);
+        }
+#endif
+
         public Vector Abs()
         {
             return new Vector(Math.Abs(x), Math.Abs(y), Math.Abs(z));

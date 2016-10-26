@@ -30,6 +30,9 @@ public class Boid
     private static float s_TendTowards = 1f;
     private static Vector s_TendToPosition;
 
+    private static float s_Avoid = 0.95f;
+    private static Vector s_AvoidPosition;
+
     public static float cohesion
     {
         get { return s_Cohesion; }
@@ -63,6 +66,17 @@ public class Boid
         set { s_TendToPosition = value; }
     }
 
+    public static float avoidPower
+    {
+        get { return s_Avoid; }
+        set { s_Avoid = value; }
+    }
+    public static Vector avoidPosition
+    {
+        get { return avoidPosition; }
+        set { s_AvoidPosition = value; }
+    }
+
     public Vector position
     {
         get { return m_Position; }
@@ -92,8 +106,9 @@ public class Boid
             var alignment = boid.Alignment() * s_Alignment;
 
             var tendTowards = boid.TendTowards() * s_TendTowards;
+            var avoid = boid.Avoid() * s_Avoid;
 
-            boid.m_Velocity += cohesion + alignment + separation + tendTowards;
+            boid.m_Velocity += cohesion + alignment + separation + tendTowards + avoid;
             if (boid.m_Velocity.magnitude > s_VelocityLimit)
                 boid.m_Velocity = boid.m_Velocity / boid.m_Velocity.magnitude * s_VelocityLimit;
 
@@ -122,7 +137,7 @@ public class Boid
         var displacement = new Vector();
         foreach (var boid in s_Boids)
             if (boid != this)
-                if ((boid.m_Position - m_Position).magnitude <= 1f)
+                if ((boid.m_Position - m_Position).magnitude <= 2f)
                     displacement -= boid.m_Position - m_Position;
 
         return displacement;
@@ -146,6 +161,11 @@ public class Boid
     private Vector TendTowards()
     {
         return (s_TendToPosition - position).normalized;
+    }
+
+    private Vector Avoid()
+    {
+        return -(s_AvoidPosition - position).normalized;
     }
 
     ~Boid()
