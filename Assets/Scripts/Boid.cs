@@ -21,13 +21,13 @@ public class Boid
 
     private static readonly List<Boid> s_Boids = new List<Boid>();
 
-    private static float s_Cohesion = 100f;
-    private static float s_Separation = 10f;
-    private static float s_Alignment = 10f;
+    private static float s_Cohesion = 1f;
+    private static float s_Separation = 1f;
+    private static float s_Alignment;
 
-    private static float s_VelocityLimit = 40f;
+    private static float s_VelocityLimit = 10f;
 
-    private static float s_TendTowardsPower = 5f;
+    private static float s_TendTowards = 1f;
     private static Vector s_TendToPosition;
 
     public static float cohesion
@@ -54,8 +54,8 @@ public class Boid
 
     public static float tendTowardsPower
     {
-        get { return s_TendTowardsPower; }
-        set { s_TendTowardsPower = value; }
+        get { return s_TendTowards; }
+        set { s_TendTowards = value; }
     }
     public static Vector tendToPosition
     {
@@ -87,15 +87,15 @@ public class Boid
 
         foreach (var boid in s_Boids)
         {
-            var cohesion = boid.Cohesion();
-            var separation = boid.Separation();
-            var alignment = boid.Alignment();
+            var cohesion = boid.Cohesion() * s_Cohesion;
+            var separation = boid.Separation() * s_Separation;
+            var alignment = boid.Alignment() * s_Alignment;
 
-            var tendTowards = boid.TendTowards();
+            var tendTowards = boid.TendTowards() * s_TendTowards;
 
             boid.m_Velocity += cohesion + alignment + separation + tendTowards;
-            if (boid.m_Velocity.Magnitude() > s_VelocityLimit)
-                boid.m_Velocity = boid.m_Velocity / boid.m_Velocity.Magnitude() * s_VelocityLimit;
+            if (boid.m_Velocity.magnitude > s_VelocityLimit)
+                boid.m_Velocity = boid.m_Velocity / boid.m_Velocity.magnitude * s_VelocityLimit;
 
             boid.m_Position += boid.m_Velocity * deltaTime;
         }
@@ -113,7 +113,7 @@ public class Boid
 
         percievedCenter /= s_Boids.Count - 1;
 
-        return (percievedCenter - m_Position) / s_Cohesion;
+        return (percievedCenter - m_Position).normalized;
     }
 
     // Separation
@@ -122,7 +122,7 @@ public class Boid
         var displacement = new Vector();
         foreach (var boid in s_Boids)
             if (boid != this)
-                if ((boid.m_Position - m_Position).Magnitude() <= s_Separation)
+                if ((boid.m_Position - m_Position).magnitude <= 1f)
                     displacement -= boid.m_Position - m_Position;
 
         return displacement;
@@ -140,12 +140,12 @@ public class Boid
 
         percievedVelocity /= s_Boids.Count - 1;
 
-        return (percievedVelocity - m_Velocity) / s_Alignment;
+        return (percievedVelocity - m_Velocity).normalized;
     }
 
     private Vector TendTowards()
     {
-        return (s_TendToPosition - position) / s_TendTowardsPower;
+        return (s_TendToPosition - position).normalized;
     }
 
     ~Boid()

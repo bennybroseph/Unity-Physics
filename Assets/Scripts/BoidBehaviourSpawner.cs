@@ -35,15 +35,17 @@ public class BoidBehaviourSpawner : MonoBehaviour
         }
     }
 
+    public Vector3 mousePosition;
     // Update is called once per frame
     void Update()
     {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = Input.mousePosition;
+        mousePosition.z = -Camera.main.transform.position.z;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         Boid.tendToPosition =
             new Vector(
                 mousePosition.x,
-                mousePosition.y,
-                mousePosition.z - Camera.main.transform.position.z);
+                mousePosition.y);
 
         Boid.Update(Time.deltaTime);
     }

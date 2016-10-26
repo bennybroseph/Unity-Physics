@@ -38,5 +38,11 @@ public class BoidBehaviour : MonoBehaviour
                 m_Boid.position.x,
                 m_Boid.position.y,
                 m_Boid.position.z);
+
+        transform.forward =
+            new Vector3(
+                m_Boid.velocity.x,
+                m_Boid.velocity.y,
+                m_Boid.velocity.z);
     }
 }

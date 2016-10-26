@@ -14,9 +14,21 @@ namespace Utility
 #endif
         public float x, y, z;
 
-        public static Vector zero
+        public Vector normalized
         {
-            get { return new Vector(); }
+            get
+            {
+                var thisMagnitude = magnitude;
+                if (thisMagnitude == 0f)
+                    return new Vector();
+
+                return new Vector(x / thisMagnitude, y / thisMagnitude, z / thisMagnitude);
+            }
+        }
+
+        public float magnitude
+        {
+            get { return (float)Math.Sqrt(x * x + y * y + z * z); }
         }
 
         public Vector(float x, float y, float z = 0f)
@@ -24,11 +36,6 @@ namespace Utility
             this.x = x;
             this.y = y;
             this.z = z;
-        }
-
-        public float Magnitude()
-        {
-            return (float)Math.Sqrt(x * x + y * y + z * z);
         }
 
         public Vector Abs()
