@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-using Utility;
+
 
 public class BoidBehaviour : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class BoidBehaviour : MonoBehaviour
     void Start()
     {
         m_Boid = new Boid(
-            new Vector(
+            new Vector3(
                 transform.position.x,
                 transform.position.y,
                 transform.position.z));

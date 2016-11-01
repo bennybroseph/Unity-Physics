@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using Utility;
+
 
 public class BoidBehaviourSpawner : MonoBehaviour
 {
@@ -42,7 +42,7 @@ public class BoidBehaviourSpawner : MonoBehaviour
             mousePosition.z = -Camera.main.transform.position.z;
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-            Boid.tendToPosition = new Vector(mousePosition.x, mousePosition.y);
+            Boid.tendToPosition = new Vector3(mousePosition.x, mousePosition.y);
         }
 
         Boid.avoidPosition = transform.position;

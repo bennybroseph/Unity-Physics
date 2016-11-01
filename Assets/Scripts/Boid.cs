@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#if UNITY_5
-using UnityEngine;
-#endif
-
-using Utility;
+using Utility.Vector;
 
 [Serializable]
 public class Boid
 {
 #if UNITY_5
-    [SerializeField]
+    [UnityEngine.SerializeField]
 #endif
-    private Vector m_Position;
+    private Vector3 m_Position;
 #if UNITY_5
-    [SerializeField]
+    [UnityEngine.SerializeField]
 #endif
-    private Vector m_Velocity;
+    private Vector3 m_Velocity;
 
     private static readonly List<Boid> s_Boids = new List<Boid>();
 
@@ -28,10 +24,10 @@ public class Boid
     private static float s_VelocityLimit = 10f;
 
     private static float s_TendTowards = 1f;
-    private static Vector s_TendToPosition;
+    private static Vector3 s_TendToPosition;
 
-    private static float s_Avoid = 0.95f;
-    private static Vector s_AvoidPosition;
+    private static float s_Avoid = 0.8f;
+    private static Vector3 s_AvoidPosition;
 
     public static float cohesion
     {
@@ -60,7 +56,7 @@ public class Boid
         get { return s_TendTowards; }
         set { s_TendTowards = value; }
     }
-    public static Vector tendToPosition
+    public static Vector3 tendToPosition
     {
         get { return s_TendToPosition; }
         set { s_TendToPosition = value; }
@@ -71,23 +67,23 @@ public class Boid
         get { return s_Avoid; }
         set { s_Avoid = value; }
     }
-    public static Vector avoidPosition
+    public static Vector3 avoidPosition
     {
         get { return avoidPosition; }
         set { s_AvoidPosition = value; }
     }
 
-    public Vector position
+    public Vector3 position
     {
         get { return m_Position; }
     }
 
-    public Vector velocity
+    public Vector3 velocity
     {
         get { return m_Velocity; }
     }
 
-    public Boid(Vector position = new Vector())
+    public Boid(Vector3 position = new Vector3())
     {
         m_Position = position;
 
@@ -119,9 +115,9 @@ public class Boid
     }
 
     // Cohesion
-    private Vector Cohesion()
+    private Vector3 Cohesion()
     {
-        var percievedCenter = new Vector();
+        var percievedCenter = new Vector3();
         foreach (var boid in s_Boids)
             if (boid != this)
                 percievedCenter += boid.m_Position;
@@ -132,9 +128,9 @@ public class Boid
     }
 
     // Separation
-    private Vector Separation()
+    private Vector3 Separation()
     {
-        var displacement = new Vector();
+        var displacement = new Vector3();
         foreach (var boid in s_Boids)
             if (boid != this)
                 if ((boid.m_Position - m_Position).magnitude <= 2f)
@@ -144,9 +140,9 @@ public class Boid
     }
 
     // Alignment
-    private Vector Alignment()
+    private Vector3 Alignment()
     {
-        var percievedVelocity = new Vector();
+        var percievedVelocity = new Vector3();
         foreach (var boid in s_Boids)
         {
             if (boid != this)
@@ -158,12 +154,12 @@ public class Boid
         return (percievedVelocity - m_Velocity).normalized;
     }
 
-    private Vector TendTowards()
+    private Vector3 TendTowards()
     {
         return (s_TendToPosition - position).normalized;
     }
 
-    private Vector Avoid()
+    private Vector3 Avoid()
     {
         return -(s_AvoidPosition - position).normalized;
     }
