@@ -46,7 +46,11 @@ namespace Utility
             }
             public static Vector3 Cross(Vector3 a, Vector3 b)
             {
-                return new Vector3();
+                return
+                    new Vector3(
+                        a.y * b.z - a.z * b.y,
+                        a.z * b.x - a.x * b.z,
+                        a.x * b.y - a.y * b.x);
             }
 
 #if UNITY_5
@@ -91,9 +95,9 @@ namespace Utility
                 return a + -b;
             }
 
-            public static Vector3 operator *(Vector3 a, Vector3 b)
+            public static float operator *(Vector3 a, Vector3 b)
             {
-                return Cross(a, b);
+                return Dot(a, b);
             }
             public static Vector3 operator *(Vector3 a, float b)
             {

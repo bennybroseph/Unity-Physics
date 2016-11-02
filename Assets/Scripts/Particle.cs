@@ -14,28 +14,25 @@ public class Particle
     [UnityEngine.SerializeField]
 #endif
     private Vector3 m_Position;
-#if UNITY_5
-    [UnityEngine.SerializeField]
-#endif
-    private Vector3 m_Velocity;
-#if UNITY_5
-    [UnityEngine.SerializeField]
-#endif
+
     private Vector3 m_Force;
-#if UNITY_5
-    [UnityEngine.SerializeField]
-#endif
     private Vector3 m_Acceleration;
+    private Vector3 m_Velocity;
 
 #if UNITY_5
-    [UnityEngine.SerializeField]
+    [UnityEngine.Space, UnityEngine.SerializeField]
 #endif
     private float m_Mass = 1f;
 
     public bool isKinematic
     {
         get { return m_IsKinematic; }
-        set { m_IsKinematic = value; }
+        set
+        {
+            m_IsKinematic = value;
+            if (m_IsKinematic)
+                m_Velocity = Vector3.zero;
+        }
     }
 
     public Vector3 position
@@ -43,6 +40,7 @@ public class Particle
         get { return m_Position; }
         set { m_Position = value; }
     }
+
     public Vector3 force
     {
         get { return m_Force; }
@@ -77,7 +75,10 @@ public class Particle
 
     public void Update(float deltaTime)
     {
-        m_Acceleration = 1 / m_Mass * m_Force;
+        if (isKinematic)
+            return;
+
+        m_Acceleration = 1f / m_Mass * m_Force;
 
         m_Velocity += m_Acceleration * deltaTime;
         m_Position += m_Velocity * deltaTime;

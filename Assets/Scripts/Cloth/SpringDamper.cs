@@ -7,16 +7,24 @@ namespace Cloth
     [Serializable]
     public class SpringDamper
     {
-        private float m_SpringConstant = 50f;
+        private float m_SpringConstant = 750f;
 
-        private float m_DampingFactor = 10f;
+        private float m_DampingFactor = 5f;
 
         private float m_RestLength = 1.25f;
+
+        private bool m_IsTorn;
+        private float m_TearLength = 3.5f;
 
 #if UNITY_5
         [UnityEngine.SerializeField]
 #endif
         private Particle m_Head, m_Tail;
+
+        public float restLength
+        {
+            get { return m_RestLength; }
+        }
 
         public Particle head
         {
@@ -29,17 +37,39 @@ namespace Cloth
             set { m_Tail = value; }
         }
 
+        public bool isTorn
+        {
+            get { return m_IsTorn; }
+        }
+        public float tearLength
+        {
+            get { return m_TearLength; }
+            set { m_TearLength = value; }
+        }
+
         public SpringDamper() { }
         public SpringDamper(Particle head, Particle tail)
         {
             m_Head = head;
             m_Tail = tail;
+
+            m_RestLength = (m_Head.position - m_Tail.position).magnitude * 0.85f;
         }
 
-        public void Update()
+        public bool Update()
         {
+            if (m_IsTorn)
+                return false;
+
             var displacement = m_Tail.position - m_Head.position;
             var distance = displacement.magnitude;
+
+            if (distance >= m_RestLength * m_TearLength)
+            {
+                m_IsTorn = true;
+                return true;
+            }
+
             var displacementDirection = displacement / distance;
 
             var headVel1D = Vector3.Dot(displacementDirection, m_Head.velocity);
@@ -49,13 +79,15 @@ namespace Cloth
 
             var linearDamping = -m_DampingFactor * (headVel1D - tailVel1D);
 
-            var springDamperForce = linearSpringForce + linearDamping;
+            var force = linearSpringForce + linearDamping;
 
-            var headForce = springDamperForce * displacementDirection;
+            var headForce = force * displacementDirection;
             var tailForce = -headForce;
 
             m_Head.AddForce(headForce);
             m_Tail.AddForce(tailForce);
+
+            return false;
         }
     }
 }

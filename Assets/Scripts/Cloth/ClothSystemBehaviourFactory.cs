@@ -11,6 +11,8 @@ namespace Cloth
 
         [Space, SerializeField]
         private Vector3 m_AgentNumber;
+        [SerializeField]
+        private float m_Separation;
 
         [Space, SerializeField]
         private Vector3 m_Gravity;
@@ -35,9 +37,9 @@ namespace Cloth
                         newAgent.transform.SetParent(newClothSystemBehaviour.transform, false);
                         newAgent.transform.localPosition =
                             new Vector3(
-                                k,
-                                j,
-                                i);
+                                (m_AgentNumber.x - 1) * m_Separation / 2 - k * m_Separation,
+                                (m_AgentNumber.y - 1) * m_Separation / 2 - j * m_Separation,
+                                (m_AgentNumber.z - 1) * m_Separation / 2 - i * m_Separation);
 
                         // Set agents position to the Unity GameObject's world position
                         newAgent.particle.position = newAgent.transform.position;
@@ -89,6 +91,16 @@ namespace Cloth
                         newSpringDamperBehaviour.springDamper);
                 }
 
+                if (i + m_AgentNumber.x < totalParticles.Count && (i + 1) % (int)m_AgentNumber.x != 0)
+                {
+                    var newClothTriangle = ClothTriangleBehaviour.Create(
+                        totalParticles[i],
+                        totalParticles[i + 1],
+                        totalParticles[i + (int)m_AgentNumber.x]);
+
+                    newClothSystemBehaviour.clothSystem.clothTriangles.Add(newClothTriangle.clothTriangle);
+                }
+
                 if (i + m_AgentNumber.x - 1 < totalParticles.Count && i % (int)m_AgentNumber.x != 0)
                 {
                     var newSpringDamperBehaviour = SpringDamperBehaviour.Create(
@@ -100,6 +112,13 @@ namespace Cloth
 
                     newClothSystemBehaviour.clothSystem.springDampers.Add(
                         newSpringDamperBehaviour.springDamper);
+
+                    var newClothTriangle = ClothTriangleBehaviour.Create(
+                        totalParticles[i],
+                        totalParticles[i + (int)m_AgentNumber.x],
+                        totalParticles[i + (int)m_AgentNumber.x - 1]);
+
+                    newClothSystemBehaviour.clothSystem.clothTriangles.Add(newClothTriangle.clothTriangle);
                 }
             }
         }

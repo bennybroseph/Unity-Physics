@@ -15,19 +15,25 @@ namespace Cloth
             set { m_SpringDamper = value; }
         }
 
-        // Update is called once per frame
-        private void LateUpdate()
-        {
-            Debug.DrawLine(m_SpringDamper.head.position, m_SpringDamper.tail.position);
-        }
-
         private void OnRenderObject()
         {
+            if (m_SpringDamper.isTorn)
+                return;
+
             CreateLineMaterial();
             lineMaterial.SetPass(0);
 
+            var test =
+                Vector3.Lerp(
+                    new Vector3(0f, 1f, 0f),
+                    new Vector3(1f, 0f, 0f),
+                    (m_SpringDamper.tail.position - m_SpringDamper.head.position).magnitude) /
+                    (m_SpringDamper.restLength * m_SpringDamper.tearLength);
+
             GL.Begin(GL.LINES);
             {
+                GL.Color(
+                    new Color(test.x, test.y, test.z));
                 GL.Vertex3(
                     m_SpringDamper.head.position.x,
                     m_SpringDamper.head.position.y,
@@ -67,7 +73,7 @@ namespace Cloth
                 // Turn backface culling off
                 lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
                 // Turn off depth writes
-                lineMaterial.SetInt("_ZWrite", 0);
+                //lineMaterial.SetInt("_ZWrite", 0);
             }
         }
     }

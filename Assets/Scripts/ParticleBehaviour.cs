@@ -12,13 +12,13 @@ public class ParticleBehaviour : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         transform.position = m_Particle.position;
     }
 
     // Update is called once per frame
-    private void LateUpdate()
+    private void OnRenderObject()
     {
         transform.position = m_Particle.position;
     }
