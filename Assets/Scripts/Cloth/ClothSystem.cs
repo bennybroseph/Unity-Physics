@@ -54,37 +54,18 @@ namespace Cloth
             }
 
             foreach (var springDamper in m_SpringDampers)
-            {
-                if (!springDamper.Update())
-                    continue;
-
-                // if the spring tore this frame we need to tear the triangle
-                foreach (var clothTriangle in m_ClothTriangles)
-                {
-                    var matches = 0;
-
-                    if (clothTriangle.particle1 == springDamper.tail &&
-                        clothTriangle.particle2 == springDamper.head)
-                        matches++;
-
-                    if (clothTriangle.particle2 == springDamper.tail &&
-                        clothTriangle.particle3 == springDamper.head)
-                        matches++;
-
-                    if (clothTriangle.particle3 == springDamper.tail &&
-                        clothTriangle.particle1 == springDamper.head)
-                        matches++;
-
-                    if (matches > 0)
-                        clothTriangle.isTorn = true;
-                }
-            }
+                springDamper.Update();
 
             foreach (var clothTriangle in m_ClothTriangles)
                 clothTriangle.Update(1f);
 
             foreach (var agent in m_Agents)
+            {
+                if (agent.velocity.magnitude > 10f)
+                    agent.velocity = agent.velocity * 10f;
+
                 agent.Update(deltaTime);
+            }
         }
     }
 }

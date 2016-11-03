@@ -14,16 +14,16 @@ public class HackyTurnoff : MonoBehaviour
     }
     public void OnToggleSprings()
     {
-        foreach (var clothTriangle in Resources.FindObjectsOfTypeAll<SpringDamperBehaviour>())
+        foreach (var springDamperBehaviour in Resources.FindObjectsOfTypeAll<SpringDamperBehaviour>())
         {
-            clothTriangle.gameObject.SetActive(!clothTriangle.gameObject.activeSelf);
+            springDamperBehaviour.gameObject.SetActive(!springDamperBehaviour.gameObject.activeSelf);
         }
     }
     public void OnToggleParticles()
     {
-        foreach (var clothTriangle in Resources.FindObjectsOfTypeAll<ParticleBehaviour>())
+        foreach (var particleBehaviour in Resources.FindObjectsOfTypeAll<ParticleBehaviour>())
         {
-            clothTriangle.gameObject.SetActive(!clothTriangle.gameObject.activeSelf);
+            particleBehaviour.gameObject.SetActive(!particleBehaviour.gameObject.activeSelf);
         }
     }
 }

@@ -17,6 +17,9 @@ public class Particle
 
     private Vector3 m_Force;
     private Vector3 m_Acceleration;
+#if UNITY_5
+    [UnityEngine.SerializeField]
+#endif
     private Vector3 m_Velocity;
 
 #if UNITY_5

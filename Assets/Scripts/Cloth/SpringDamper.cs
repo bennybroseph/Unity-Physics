@@ -1,13 +1,12 @@
 ﻿using System;
-
-using Utility.Vector;
+using System.Collections.Generic;
 
 namespace Cloth
 {
     [Serializable]
     public class SpringDamper
     {
-        private float m_SpringConstant = 750f;
+        private float m_SpringConstant = 15f;
 
         private float m_DampingFactor = 5f;
 
@@ -21,9 +20,21 @@ namespace Cloth
 #endif
         private Particle m_Head, m_Tail;
 
+        private readonly List<ClothTriangle> m_ClothTriangles = new List<ClothTriangle>();
+
         public float restLength
         {
             get { return m_RestLength; }
+        }
+
+        public bool isTorn
+        {
+            get { return m_IsTorn; }
+        }
+        public float tearLength
+        {
+            get { return m_TearLength; }
+            set { m_TearLength = value; }
         }
 
         public Particle head
@@ -37,14 +48,9 @@ namespace Cloth
             set { m_Tail = value; }
         }
 
-        public bool isTorn
+        public List<ClothTriangle> clothTriangles
         {
-            get { return m_IsTorn; }
-        }
-        public float tearLength
-        {
-            get { return m_TearLength; }
-            set { m_TearLength = value; }
+            get { return m_ClothTriangles; }
         }
 
         public SpringDamper() { }
@@ -53,13 +59,13 @@ namespace Cloth
             m_Head = head;
             m_Tail = tail;
 
-            m_RestLength = (m_Head.position - m_Tail.position).magnitude * 0.85f;
+            m_RestLength = (m_Head.position - m_Tail.position).magnitude * 0.9f;
         }
 
-        public bool Update()
+        public void Update()
         {
             if (m_IsTorn)
-                return false;
+                return;
 
             var displacement = m_Tail.position - m_Head.position;
             var distance = displacement.magnitude;
@@ -67,13 +73,17 @@ namespace Cloth
             if (distance >= m_RestLength * m_TearLength)
             {
                 m_IsTorn = true;
-                return true;
+
+                foreach (var clothTriangle in clothTriangles)
+                    clothTriangle.isTorn = true;
+
+                return;
             }
 
             var displacementDirection = displacement / distance;
 
-            var headVel1D = Vector3.Dot(displacementDirection, m_Head.velocity);
-            var tailVel1D = Vector3.Dot(displacementDirection, m_Tail.velocity);
+            var headVel1D = displacementDirection * m_Head.velocity;
+            var tailVel1D = displacementDirection * m_Tail.velocity;
 
             var linearSpringForce = -m_SpringConstant * (m_RestLength - distance);
 
@@ -87,7 +97,7 @@ namespace Cloth
             m_Head.AddForce(headForce);
             m_Tail.AddForce(tailForce);
 
-            return false;
+            return;
         }
     }
 }

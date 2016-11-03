@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Utility.Vector;
 
@@ -10,12 +11,16 @@ namespace Cloth
 #if UNITY_5
         [UnityEngine.SerializeField]
 #endif
-        private Particle m_Particle1, m_Particle2, m_Particle3;
+        private float m_Drag = 1f;
 
 #if UNITY_5
         [UnityEngine.SerializeField]
 #endif
-        private float m_Drag = 1f;
+        private Particle m_Particle1, m_Particle2, m_Particle3;
+
+        private readonly List<SpringDamper> m_SpringDampers = new List<SpringDamper>();
+
+        private Vector3 m_Normal;
 
         private bool m_IsTorn;
 
@@ -35,10 +40,20 @@ namespace Cloth
             set { m_Particle3 = value; }
         }
 
+        public List<SpringDamper> springDampers
+        {
+            get { return m_SpringDampers; }
+        }
+
         public bool isTorn
         {
             get { return m_IsTorn; }
             set { m_IsTorn = value; }
+        }
+
+        public Vector3 normal
+        {
+            get { return m_Normal; }
         }
 
         public void Update(float density)
@@ -46,7 +61,7 @@ namespace Cloth
             if (m_IsTorn)
                 return;
 
-            var n =
+            m_Normal =
                 Vector3.Cross(
                     particle2.position - particle1.position,
                     particle3.position - particle1.position) /
@@ -55,16 +70,16 @@ namespace Cloth
                     particle3.position - particle1.position).magnitude;
 
             var a0 =
-                1f / 2f * Vector3.Cross(
+                0.5f * Vector3.Cross(
                     particle2.position - particle1.position,
                     particle3.position - particle1.position).magnitude;
 
 
             var vSurface = (particle1.velocity + particle2.velocity + particle3.velocity) / 3f;
 
-            var v = vSurface - new Vector3(0f, 0f, 20f);
+            var v = vSurface - new Vector3(0f, 0f, 2f);
 
-            var a = a0 * (v * n / v.magnitude);
+            var a = a0 * (v * m_Normal / v.magnitude);
 
             //var nStar =
             //    Vector3.Cross(
@@ -73,7 +88,7 @@ namespace Cloth
 
             //var van = ((v.magnitude * (v * nStar)) / (2 * nStar.magnitude)) * nStar;
 
-            var aero = -(1f / 2f) * (density * (v.magnitude * v.magnitude) * m_Drag * a * n);
+            var aero = -0.5f * density * (v.magnitude * v.magnitude) * m_Drag * a * m_Normal;
 
             particle1.AddForce(aero / 3f);
             particle2.AddForce(aero / 3f);
