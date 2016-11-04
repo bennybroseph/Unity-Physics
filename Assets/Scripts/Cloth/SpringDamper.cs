@@ -6,14 +6,14 @@ namespace Cloth
     [Serializable]
     public class SpringDamper
     {
-        private float m_SpringConstant = 15f;
+        private float m_SpringConstant = 125f;
 
         private float m_DampingFactor = 5f;
 
         private float m_RestLength = 1.25f;
 
         private bool m_IsTorn;
-        private float m_TearLength = 3.5f;
+        private float m_TearLength = 5f;
 
 #if UNITY_5
         [UnityEngine.SerializeField]
@@ -59,7 +59,7 @@ namespace Cloth
             m_Head = head;
             m_Tail = tail;
 
-            m_RestLength = (m_Head.position - m_Tail.position).magnitude * 0.9f;
+            m_RestLength = (m_Head.position - m_Tail.position).magnitude * 0.8f;
         }
 
         public void Update()

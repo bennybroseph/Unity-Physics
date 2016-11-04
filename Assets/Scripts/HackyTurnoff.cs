@@ -5,6 +5,11 @@ using Cloth;
 
 public class HackyTurnoff : MonoBehaviour
 {
+    private void Start()
+    {
+        OnToggleTriangles();
+    }
+
     public void OnToggleTriangles()
     {
         foreach (var clothTriangle in Resources.FindObjectsOfTypeAll<ClothTriangleBehaviour>())
@@ -23,7 +28,9 @@ public class HackyTurnoff : MonoBehaviour
     {
         foreach (var particleBehaviour in Resources.FindObjectsOfTypeAll<ParticleBehaviour>())
         {
-            particleBehaviour.gameObject.SetActive(!particleBehaviour.gameObject.activeSelf);
+            var particleRenderer = particleBehaviour.GetComponent<Renderer>();
+            if (particleRenderer)
+                particleRenderer.enabled = !particleRenderer.enabled;
         }
     }
 }

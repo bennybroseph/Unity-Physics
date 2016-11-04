@@ -1072,7 +1072,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!114 &1210024293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,7 +1406,7 @@ MonoBehaviour:
     type: 2}
   m_AgentNumber: {x: 5, y: 5, z: 1}
   m_Separation: 0.25
-  m_Gravity: {x: 0, y: -0.3, z: 0}
+  m_Gravity: {x: 0, y: -5, z: 0}
 --- !u!4 &1518813939
 Transform:
   m_ObjectHideFlags: 0

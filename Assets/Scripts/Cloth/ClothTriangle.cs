@@ -61,13 +61,7 @@ namespace Cloth
             if (m_IsTorn)
                 return;
 
-            m_Normal =
-                Vector3.Cross(
-                    particle2.position - particle1.position,
-                    particle3.position - particle1.position) /
-                Vector3.Cross(
-                    particle2.position - particle1.position,
-                    particle3.position - particle1.position).magnitude;
+            CalculateNormals();
 
             var a0 =
                 0.5f * Vector3.Cross(
@@ -93,6 +87,17 @@ namespace Cloth
             particle1.AddForce(aero / 3f);
             particle2.AddForce(aero / 3f);
             particle3.AddForce(aero / 3f);
+        }
+
+        public void CalculateNormals()
+        {
+            m_Normal =
+                Vector3.Cross(
+                    m_Particle2.position - m_Particle1.position,
+                    m_Particle3.position - m_Particle1.position) /
+                Vector3.Cross(
+                    m_Particle2.position - m_Particle1.position,
+                    m_Particle3.position - m_Particle1.position).magnitude;
         }
     }
 }

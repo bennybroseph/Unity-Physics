@@ -25,20 +25,20 @@ namespace Cloth
             if (m_ClothTriangle.isTorn)
                 return;
 
+            m_ClothTriangle.CalculateNormals();
+
             CreateLineMaterial();
             lineMaterial.SetPass(0);
 
             var light = FindObjectsOfType<Light>().First(x => x.type == LightType.Directional);
             var lightDirection = -light.transform.forward;
 
-
-
             GL.Begin(GL.TRIANGLES);
             {
                 var diffuseTerm = Vector3.Dot(lightDirection, m_ClothTriangle.normal);
                 diffuseTerm = Mathf.Max(0f, diffuseTerm);
 
-                Color32 diffuse = s_BackColor * light.color * diffuseTerm;
+                Color32 diffuse = s_FrontColor * light.color * diffuseTerm;
                 diffuse.a = 255;
 
                 GL.Color(diffuse);
@@ -109,8 +109,8 @@ namespace Cloth
             lineMaterial = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
 
             // Turn on alpha blending
-            lineMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            lineMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            //lineMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            //lineMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
             // Turn backface culling off
             lineMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Back);
             // Turn off depth writes

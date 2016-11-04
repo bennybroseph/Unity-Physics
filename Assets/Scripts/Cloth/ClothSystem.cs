@@ -61,8 +61,46 @@ namespace Cloth
 
             foreach (var agent in m_Agents)
             {
-                if (agent.velocity.magnitude > 10f)
-                    agent.velocity = agent.velocity * 10f;
+                if (agent.position.x < -2f)
+                {
+                    agent.position = new Vector3(-2f, agent.position.y, agent.position.z);
+                    agent.velocity =
+                        new Vector3(
+                            -agent.velocity.x * 0.5f,
+                            agent.velocity.y * 0.75f,
+                            agent.velocity.z * 0.75f);
+                }
+                if (agent.position.x > 2f)
+                {
+                    agent.position = new Vector3(2f, agent.position.y, agent.position.z);
+                    agent.velocity =
+                        new Vector3(
+                            -agent.velocity.x * 0.5f,
+                            agent.velocity.y * 0.75f,
+                            agent.velocity.z * 0.75f);
+                }
+
+                if (agent.position.y < -1.5f)
+                {
+                    agent.position = new Vector3(agent.position.x, -1.5f, agent.position.z);
+                    agent.velocity =
+                        new Vector3(
+                            agent.velocity.x * 0.75f,
+                            -agent.velocity.y * 0.5f,
+                            agent.velocity.z * 0.75f);
+                }
+                if (agent.position.y > 1.5f)
+                {
+                    agent.position = new Vector3(agent.position.x, 1.5f, agent.position.z);
+                    agent.velocity =
+                        new Vector3(
+                            agent.velocity.x * 0.75f,
+                            -agent.velocity.y * 0.5f,
+                            agent.velocity.z * 0.75f);
+                }
+
+                if (agent.velocity.magnitude > 15f)
+                    agent.velocity = agent.velocity * 15f;
 
                 agent.Update(deltaTime);
             }
