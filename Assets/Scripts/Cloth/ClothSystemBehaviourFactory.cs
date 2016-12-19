@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Cloth
 {
+    using UnityEngine.SceneManagement;
+
     public class ClothSystemBehaviourFactory : MonoBehaviour
     {
         [SerializeField]
@@ -16,6 +18,11 @@ namespace Cloth
 
         [Space, SerializeField]
         private Vector3 m_Gravity;
+
+        public void ReloadScene()
+        {
+            SceneManager.LoadScene(SceneUtility.GetScenePathByBuildIndex(0));
+        }
 
         // Use this for initialization
         private void Awake()

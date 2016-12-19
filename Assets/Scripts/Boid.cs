@@ -21,12 +21,12 @@ public class Boid
     private static float s_Separation = 1f;
     private static float s_Alignment;
 
-    private static float s_VelocityLimit = 10f;
+    private static float s_VelocityLimit = 14f;
 
     private static float s_TendTowards = 1f;
     private static Vector3 s_TendToPosition;
 
-    private static float s_Avoid = 0.8f;
+    private static float s_Avoid = 0.4f;
     private static Vector3 s_AvoidPosition;
 
     public static float cohesion
@@ -69,7 +69,7 @@ public class Boid
     }
     public static Vector3 avoidPosition
     {
-        get { return avoidPosition; }
+        get { return s_AvoidPosition; }
         set { s_AvoidPosition = value; }
     }
 

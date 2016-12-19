@@ -16,7 +16,7 @@ public class BoidBehaviourSpawner : MonoBehaviour
     private Vector3 m_MaxPosition;
 
     // Use this for initialization
-    void Start()
+    private void Awake()
     {
         for (var i = 0; i < m_NumberOfBoids; ++i)
         {
@@ -34,7 +34,7 @@ public class BoidBehaviourSpawner : MonoBehaviour
 
     public Vector3 mousePosition;
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButton(1))
         {

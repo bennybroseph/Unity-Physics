@@ -23,6 +23,9 @@ namespace Utility
                 get
                 {
                     var cachedMagnitude = magnitude;
+                    if(cachedMagnitude == 0f)
+                        return zero;
+
                     return new Vector3(x / cachedMagnitude, y / cachedMagnitude, z / cachedMagnitude);
                 }
             }
