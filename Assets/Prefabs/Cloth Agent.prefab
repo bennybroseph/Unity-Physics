@@ -16,12 +16,12 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000011230061114}
-  - 33: {fileID: 33000010504273098}
-  - 23: {fileID: 23000012260863504}
-  - 135: {fileID: 135000012669371160}
+  - component: {fileID: 4000011230061114}
+  - component: {fileID: 33000010504273098}
+  - component: {fileID: 23000012260863504}
+  - component: {fileID: 135000012669371160}
   m_Layer: 0
   m_Name: Cloth Agent
   m_TagString: Untagged
@@ -38,10 +38,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23000012260863504
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -55,8 +55,10 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 8667d1ef8e9ec334bbdb256ca263b0a1, type: 2}
-  m_SubsetIndices: 
+  - {fileID: 2100000, guid: 1878601d3a81ee6429c9ed4d735c93a8, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
@@ -64,7 +66,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedWireframeHidden: 0
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

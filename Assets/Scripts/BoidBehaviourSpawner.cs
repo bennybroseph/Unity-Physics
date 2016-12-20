@@ -30,23 +30,24 @@ public class BoidBehaviourSpawner : MonoBehaviour
             var newBoidBehaviour = newGameObject.AddComponent<BoidBehaviour>();
             newBoidBehaviour.Init(newBoid);
         }
+        Boid.avoidPosition = transform.position;
     }
 
-    public Vector3 mousePosition;
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetMouseButton(1))
-        {
-            mousePosition = Input.mousePosition;
-            mousePosition.z = -Camera.main.transform.position.z;
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-            Boid.tendToPosition = new Vector3(mousePosition.x, mousePosition.y);
-        }
-
-        Boid.avoidPosition = transform.position;
-
         Boid.Update(Time.deltaTime);
+
+        var mousePosition = Input.mousePosition;
+        mousePosition.z = -Camera.main.transform.position.z;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        if (Input.GetMouseButton(1))
+            Boid.tendToPosition = new Vector3(mousePosition.x, mousePosition.y);
+
+        if (Input.GetMouseButton(2))
+            Boid.avoidPosition = new Vector3(mousePosition.x, mousePosition.y);
+
+        transform.position = Boid.avoidPosition;
     }
 }
