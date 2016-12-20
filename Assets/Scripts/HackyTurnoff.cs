@@ -7,7 +7,8 @@ public class HackyTurnoff : MonoBehaviour
 {
     private void Start()
     {
-        OnToggleTriangles();
+        foreach (var clothTriangle in Resources.FindObjectsOfTypeAll<ClothTriangleBehaviour>())
+            clothTriangle.gameObject.SetActive(false);
     }
 
     public void OnToggleTriangles()
@@ -32,5 +33,9 @@ public class HackyTurnoff : MonoBehaviour
             if (particleRenderer)
                 particleRenderer.enabled = !particleRenderer.enabled;
         }
+    }
+    public void OnToggleWind()
+    {
+        ClothTriangle.s_Wind = !ClothTriangle.s_Wind;
     }
 }

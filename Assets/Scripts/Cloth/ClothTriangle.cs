@@ -8,6 +8,8 @@ namespace Cloth
     [Serializable]
     public class ClothTriangle
     {
+        public static bool s_Wind = true;
+
 #if UNITY_5
         [UnityEngine.SerializeField]
 #endif
@@ -71,7 +73,7 @@ namespace Cloth
 
             var vSurface = (particle1.velocity + particle2.velocity + particle3.velocity) / 3f;
 
-            var v = vSurface - new Vector3(0f, 0f, 2f);
+            var v = s_Wind ? vSurface - new Vector3(0f, 0f, 10f) : vSurface;
 
             var a = a0 * (v * m_Normal / v.magnitude);
 
