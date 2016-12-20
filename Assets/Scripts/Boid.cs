@@ -23,10 +23,10 @@ public class Boid
 
     private static float s_VelocityLimit = 14f;
 
-    private static float s_TendTowards = 1f;
+    private static float s_TendTowards = 2f;
     private static Vector3 s_TendToPosition;
 
-    private static float s_Avoid = 0.4f;
+    private static float s_Avoid = 1f;
     private static Vector3 s_AvoidPosition;
 
     public static float cohesion

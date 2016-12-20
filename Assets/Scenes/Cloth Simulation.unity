@@ -1293,7 +1293,7 @@ GameObject:
   - component: {fileID: 1291849460}
   - component: {fileID: 1291849459}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,7 +1750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AgentPrefab: {fileID: 1000010497411836, guid: 9af1412b34eb9cc4f8f41be80c0400ef,
     type: 2}
-  m_AgentNumber: {x: 5, y: 5, z: 1}
+  m_AgentNumber: {x: 10, y: 10, z: 1}
   m_Separation: 0.25
   m_Gravity: {x: 0, y: -5, z: 0}
 --- !u!4 &1518813939
@@ -1810,7 +1810,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 8667d1ef8e9ec334bbdb256ca263b0a1, type: 2}
+  - {fileID: 2100000, guid: 497743e05907ec541bebe3956fac1621, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
