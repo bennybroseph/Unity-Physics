@@ -10,7 +10,7 @@ public class ParticleBehaviour : MonoBehaviour
 
     private Renderer m_Renderer;
 
-    public Vector3 m_PreviousMousePosition = Vector3.zero;
+    public Vector3 previousMousePosition = Vector3.zero;
 
     private readonly Color m_SelectedColor = new Color32(255, 87, 34, 255);
     private readonly Color m_PinnedColor = new Color32(3, 169, 244, 255);
@@ -59,14 +59,14 @@ public class ParticleBehaviour : MonoBehaviour
     {
         if (!m_MoveWithMouse)
         {
-            m_PreviousMousePosition = Vector3.zero;
+            previousMousePosition = Vector3.zero;
             return;
         }
 
         if (!Input.GetMouseButton(0))
         {
             m_Particle.isKinematic = m_WasKinematic;
-            m_PreviousMousePosition = Vector3.zero;
+            previousMousePosition = Vector3.zero;
 
             m_MoveWithMouse = false;
         }
@@ -76,11 +76,11 @@ public class ParticleBehaviour : MonoBehaviour
 
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        if (m_PreviousMousePosition == Vector3.zero)
-            m_PreviousMousePosition = mousePosition;
+        if (previousMousePosition == Vector3.zero)
+            previousMousePosition = mousePosition;
 
-        m_Particle.position = (Vector3)m_Particle.position + (mousePosition - m_PreviousMousePosition);
-        m_PreviousMousePosition = mousePosition;
+        m_Particle.position = (Vector3)m_Particle.position + (mousePosition - previousMousePosition);
+        previousMousePosition = mousePosition;
 
         if (Input.GetKeyDown(KeyCode.P))
             m_WasKinematic = !m_WasKinematic;
