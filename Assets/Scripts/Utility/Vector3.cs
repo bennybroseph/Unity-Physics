@@ -56,7 +56,7 @@ namespace Utility
                         a.x * b.y - a.y * b.x);
             }
 
-#if UNITY_5
+#if UNITY_5_5_OR_NEWER
             public static implicit operator UnityEngine.Vector3(Vector3 a)
             {
                 return new UnityEngine.Vector3(a.x, a.y, a.z);
